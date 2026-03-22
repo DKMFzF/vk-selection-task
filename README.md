@@ -31,8 +31,7 @@ npm run dev
 
 ## Переменные окружения
 
-Смотри `.env.default`:
-
+`.env.default`:
 - `PORT` - порт dev-сервера
 - `KINOPOISK_API_URL` - base url API
 - `KINOPOISK_API_KEY` - API ключ kinopoisk.dev
