@@ -27,7 +27,6 @@ export const useMovieFilters = () => {
 			parsed.yearTo === filters.yearTo &&
 			parsed.genres.join(",") === filters.genres.join(",");
 		if (!isSame) replaceFilters(parsed);
-		// We intentionally hydrate from URL once per URL change.
 	}, [filters, replaceFilters, searchParams]);
 
 	useEffect(() => {

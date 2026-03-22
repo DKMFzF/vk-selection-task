@@ -11,7 +11,7 @@ export const readPersisted = <T>(key: string, fallback: T): T => {
 export const writePersisted = <T>(key: string, value: T): void => {
 	try {
 		localStorage.setItem(key, JSON.stringify(value));
-	} catch {
-		// ignore storage quota errors
+	} catch (error) {
+		console.error(error);
 	}
 };
