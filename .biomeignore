@@ -1,0 +1,10 @@
+node_modules/
+
+dist/
+build/
+
+*.log
+
+src/setupTests.ts
+src/shared/model/singleton/singleton.ts
+routeTree.gen.ts
