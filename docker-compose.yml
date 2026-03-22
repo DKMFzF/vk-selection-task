@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        KINOPOISK_API_KEY: ${KINOPOISK_API_KEY}
+        KINOPOISK_API_URL: ${KINOPOISK_API_URL:-/api/kinopoisk}
+    ports:
+      - "${DOCKER_PORT:-8080}:80"
