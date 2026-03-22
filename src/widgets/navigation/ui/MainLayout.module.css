@@ -1,9 +1,11 @@
 .root {
 	min-height: calc(100vh - 48px);
 	display: grid;
-	grid-template-columns: 1fr 240px;
-	gap: 16px;
-	padding: 12px;
+	grid-template-columns: minmax(0, 1fr) 240px;
+	gap: 24px;
+	max-width: 1760px;
+	margin: 0 auto;
+	padding: 20px 24px 24px;
 }
 
 .content {
