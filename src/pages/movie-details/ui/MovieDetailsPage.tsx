@@ -1,6 +1,6 @@
-import { Div, Group, Text } from "@vkontakte/vkui";
+import { Button, Div, Group, Text } from "@vkontakte/vkui";
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useFavorites } from "@/features/favorites/hooks/useFavorites";
 import { FavoriteConfirmModal } from "@/features/favorites/ui/FavoriteConfirmModal";
@@ -11,6 +11,7 @@ import { MovieDetailsCard } from "@/widgets/movie-details/ui/MovieDetailsCard";
 import styles from "./MovieDetailsPage.module.css";
 
 export const MovieDetailsPage = (): React.JSX.Element => {
+	const navigate = useNavigate();
 	const { id } = useParams();
 	const movieId = useMemo(() => Number(id), [id]);
 	const { movie, isLoading, error } = useMovieDetails(
@@ -36,6 +37,20 @@ export const MovieDetailsPage = (): React.JSX.Element => {
 			<div className={styles.container}>
 				<Group>
 					<Div>
+						<Button
+							mode="tertiary"
+							size="s"
+							style={{ marginBottom: 12 }}
+							onClick={() => {
+								if (window.history.length > 1) {
+									navigate(-1);
+								} else {
+									navigate("/movies");
+								}
+							}}
+						>
+							Назад
+						</Button>
 						{isLoading ? <Loader /> : null}
 						{error ? <Text>Ошибка загрузки: {error}</Text> : null}
 						{movie ? (
