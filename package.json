@@ -1,0 +1,28 @@
+{
+	"name": "vk-selection-task",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Movie app starter on React + TypeScript",
+	"type": "module",
+	"scripts": {
+		"dev": "rsbuild dev",
+		"build": "rsbuild build",
+		"preview": "rsbuild preview",
+		"lint": "biome check src",
+		"format": "biome format --write src"
+	},
+	"dependencies": {
+		"axios": "^1.12.2",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-router-dom": "^7.9.4"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.6",
+		"@rsbuild/core": "^1.5.6",
+		"@rsbuild/plugin-react": "^1.4.0",
+		"@types/react": "^19.1.13",
+		"@types/react-dom": "^19.1.9",
+		"typescript": "^5.9.2"
+	}
+}
