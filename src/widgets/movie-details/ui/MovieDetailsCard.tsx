@@ -56,11 +56,8 @@ export const MovieDetailsCard = ({
 					</div>
 
 					<div className={styles.sidebar}>
-						<div>
-							<div className={styles.ratingLabel}>Оценка</div>
-							<div className={styles.ratingValue}>
-								<RatingBadge value={movie.rating} />
-							</div>
+						<div className={styles.ratingValue}>
+							<RatingBadge value={movie.rating} />
 						</div>
 						<div className={styles.actions}>
 							<Button

@@ -9,12 +9,12 @@
 
 .label {
 	font-size: 14px;
-	color: #6f7985;
+	color: #ffffff;
 }
 
 .value {
 	font-size: 15px;
-	color: #1f2328;
+	color: #ffffff;
 }
 
 @media (max-width: 767px) {
