@@ -1,7 +1,7 @@
 import { useUnit } from "effector-react";
 import {
+	Box,
 	Button,
-	Div,
 	Group,
 	ModalPage,
 	ModalPageHeader,
@@ -99,7 +99,7 @@ export const MoviesPage = (): React.JSX.Element => {
 						</div>
 
 						<Group>
-							<Div>
+							<Box>
 								<MoviesFeed
 									movies={movies}
 									isLoading={isLoading}
@@ -113,7 +113,7 @@ export const MoviesPage = (): React.JSX.Element => {
 								/>
 								<div ref={loadMoreRef} className={styles.loadSentinel} />
 								{isLoading ? <Loader /> : null}
-							</Div>
+							</Box>
 						</Group>
 
 						<Group>

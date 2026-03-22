@@ -1,5 +1,5 @@
 import { Button, Card, Div, Text, Title } from "@vkontakte/vkui";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import type { Movie } from "@/entities/movie/model";
 import { RatingBadge } from "./RatingBadge";
@@ -24,8 +24,22 @@ export const MovieCard = ({
 	onAddToCompare,
 	onRemoveFromCompare,
 }: MovieCardProps): React.JSX.Element => {
+	const navigate = useNavigate();
+
 	return (
-		<Card mode="shadow" className={styles.card}>
+		<Card
+			mode="shadow"
+			className={styles.card}
+			role="button"
+			tabIndex={0}
+			onClick={() => navigate(`/movies/${movie.id}`)}
+			onKeyDown={(event) => {
+				if (event.key === "Enter" || event.key === " ") {
+					event.preventDefault();
+					navigate(`/movies/${movie.id}`);
+				}
+			}}
+		>
 			<div className={styles.posterWrap}>
 				<div className={styles.rating}>
 					<RatingBadge value={movie.rating} />
@@ -48,29 +62,27 @@ export const MovieCard = ({
 				<div className={styles.actions}>
 					<Button
 						size="s"
-						mode="secondary"
-						to={`/movies/${movie.id}`}
-						Component={Link}
-					>
-						Детали
-					</Button>
-					<Button
-						size="s"
 						mode={isFavorite ? "outline" : "primary"}
-						onClick={() =>
+						className={styles.btn}
+						onClick={(event) => {
+							event.stopPropagation();
 							isFavorite
 								? onRemoveFromFavorites(movie.id)
-								: onAddToFavorites(movie)
-						}
+								: onAddToFavorites(movie);
+						}}
 					>
 						{isFavorite ? "Из избранного" : "В избранное"}
 					</Button>
 					<Button
 						size="s"
 						mode={isCompared ? "outline" : "secondary"}
-						onClick={() =>
-							isCompared ? onRemoveFromCompare(movie.id) : onAddToCompare(movie)
-						}
+						className={styles.btn}
+						onClick={(event) => {
+							event.stopPropagation();
+							isCompared
+								? onRemoveFromCompare(movie.id)
+								: onAddToCompare(movie);
+						}}
 					>
 						{isCompared ? "Убрать сравнение" : "Сравнить"}
 					</Button>

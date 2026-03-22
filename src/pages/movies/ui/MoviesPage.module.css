@@ -10,9 +10,8 @@
 
 .fixedFilters {
 	position: fixed;
-	top: 76px;
+	top: 34px;
 	width: 290px;
-	max-height: calc(100vh - 96px);
 	overflow: auto;
 }
 

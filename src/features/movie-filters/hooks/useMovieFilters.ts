@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import {
@@ -14,29 +14,47 @@ import {
 
 export const useMovieFilters = () => {
 	const filters = useUnit($filters);
-	const updateFilters = useUnit(filtersChanged);
+	const updateFiltersEvent = useUnit(filtersChanged);
 	const replaceFilters = useUnit(filtersReplaced);
 	const [searchParams, setSearchParams] = useSearchParams();
+	const syncFromUrlRef = useRef(false);
+	const localChangeRef = useRef(false);
+	const searchKey = searchParams.toString();
+	const filtersKey = useMemo(
+		() => buildQueryFromFilters(filters).toString(),
+		[filters],
+	);
 
 	useEffect(() => {
-		const parsed = parseFiltersFromQuery(searchParams);
-		const isSame =
-			parsed.ratingFrom === filters.ratingFrom &&
-			parsed.ratingTo === filters.ratingTo &&
-			parsed.yearFrom === filters.yearFrom &&
-			parsed.yearTo === filters.yearTo &&
-			parsed.genres.join(",") === filters.genres.join(",");
-		if (!isSame) replaceFilters(parsed);
-	}, [filters, replaceFilters, searchParams]);
-
-	useEffect(() => {
-		const nextParams = buildQueryFromFilters(filters);
-		const next = nextParams.toString();
-		const current = searchParams.toString();
-		if (next !== current) {
-			setSearchParams(nextParams, { replace: true });
+		if (localChangeRef.current) {
+			if (searchKey === filtersKey) {
+				localChangeRef.current = false;
+			}
+			return;
 		}
-	}, [filters, searchParams, setSearchParams]);
+
+		const parsed = parseFiltersFromQuery(new URLSearchParams(searchKey));
+		const parsedKey = buildQueryFromFilters(parsed).toString();
+		if (parsedKey !== filtersKey) {
+			syncFromUrlRef.current = true;
+			replaceFilters(parsed);
+		}
+	}, [filtersKey, replaceFilters, searchKey]);
+
+	useEffect(() => {
+		if (syncFromUrlRef.current) {
+			syncFromUrlRef.current = false;
+			return;
+		}
+		if (filtersKey !== searchKey) {
+			setSearchParams(buildQueryFromFilters(filters), { replace: true });
+		}
+	}, [filters, filtersKey, searchKey, setSearchParams]);
+
+	const updateFilters = (payload: Parameters<typeof updateFiltersEvent>[0]) => {
+		localChangeRef.current = true;
+		updateFiltersEvent(payload);
+	};
 
 	return {
 		filters,

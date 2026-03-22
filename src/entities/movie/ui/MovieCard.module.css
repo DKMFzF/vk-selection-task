@@ -2,6 +2,7 @@
 	border-radius: 12px;
 	overflow: hidden;
 	background: #ffffff;
+	cursor: pointer;
 }
 
 .posterWrap {
@@ -56,4 +57,9 @@
 	display: flex;
 	gap: 8px;
 	flex-wrap: wrap;
+}
+
+.btn {
+	color: black;
+	text-decoration: none;
 }

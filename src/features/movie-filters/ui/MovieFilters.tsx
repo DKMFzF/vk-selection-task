@@ -1,10 +1,9 @@
-import { Button, Div, Title } from "@vkontakte/vkui";
+import { Box, Button, Checkbox, Input, Title } from "@vkontakte/vkui";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
 
 import { $genres, $isLoadingGenres } from "@/entities/movie/model";
 import { Loader } from "@/shared/ui/Loader";
-import { FilterCheckbox, FilterNumberInput } from "@/shared/ui/filters";
 import { useMovieFilters } from "../hooks/useMovieFilters";
 import styles from "./MovieFilters.module.css";
 
@@ -50,47 +49,87 @@ export const MovieFilters = (): React.JSX.Element => {
 	};
 
 	return (
-		<Div className={styles.container}>
+		<Box className={styles.container}>
 			<Title level="2" className={styles.title}>
 				Фильтры
 			</Title>
 			<div className={styles.controls}>
-				<FilterNumberInput
-					label="Рейтинг от"
-					value={ratingFromInput}
-					onChange={setRatingFromInput}
-					onCommit={() =>
-						commitNumberFilter(
-							"ratingFrom",
-							ratingFromInput,
-							filters.ratingFrom,
-						)
-					}
-				/>
-				<FilterNumberInput
-					label="Рейтинг до"
-					value={ratingToInput}
-					onChange={setRatingToInput}
-					onCommit={() =>
-						commitNumberFilter("ratingTo", ratingToInput, filters.ratingTo)
-					}
-				/>
-				<FilterNumberInput
-					label="Год от"
-					value={yearFromInput}
-					onChange={setYearFromInput}
-					onCommit={() =>
-						commitNumberFilter("yearFrom", yearFromInput, filters.yearFrom)
-					}
-				/>
-				<FilterNumberInput
-					label="Год до"
-					value={yearToInput}
-					onChange={setYearToInput}
-					onCommit={() =>
-						commitNumberFilter("yearTo", yearToInput, filters.yearTo)
-					}
-				/>
+				<div>
+					<div className={styles.genresTitle}>Рейтинг от</div>
+					<Input
+						aria-label="Рейтинг от"
+						type="number"
+						value={ratingFromInput}
+						onChange={(event) => setRatingFromInput(event.target.value)}
+						onBlur={() =>
+							commitNumberFilter(
+								"ratingFrom",
+								ratingFromInput,
+								filters.ratingFrom,
+							)
+						}
+						onKeyDown={(event) => {
+							if (event.key === "Enter") {
+								event.preventDefault();
+								event.currentTarget.blur();
+							}
+						}}
+					/>
+				</div>
+				<div>
+					<div className={styles.genresTitle}>Рейтинг до</div>
+					<Input
+						aria-label="Рейтинг до"
+						type="number"
+						value={ratingToInput}
+						onChange={(event) => setRatingToInput(event.target.value)}
+						onBlur={() =>
+							commitNumberFilter("ratingTo", ratingToInput, filters.ratingTo)
+						}
+						onKeyDown={(event) => {
+							if (event.key === "Enter") {
+								event.preventDefault();
+								event.currentTarget.blur();
+							}
+						}}
+					/>
+				</div>
+				<div>
+					<div className={styles.genresTitle}>Год от</div>
+					<Input
+						aria-label="Год от"
+						type="number"
+						value={yearFromInput}
+						onChange={(event) => setYearFromInput(event.target.value)}
+						onBlur={() =>
+							commitNumberFilter("yearFrom", yearFromInput, filters.yearFrom)
+						}
+						onKeyDown={(event) => {
+							if (event.key === "Enter") {
+								event.preventDefault();
+								event.currentTarget.blur();
+							}
+						}}
+					/>
+				</div>
+				<div>
+					<div className={styles.genresTitle}>Год до</div>
+					<Input
+						aria-label="Год до"
+						type="number"
+						value={yearToInput}
+						onChange={(event) => setYearToInput(event.target.value)}
+						onBlur={() =>
+							commitNumberFilter("yearTo", yearToInput, filters.yearTo)
+						}
+						onKeyDown={(event) => {
+							if (event.key === "Enter") {
+								event.preventDefault();
+								event.currentTarget.blur();
+							}
+						}}
+					/>
+				</div>
 			</div>
 
 			<div className={styles.genresTitle}>Жанры</div>
@@ -99,12 +138,13 @@ export const MovieFilters = (): React.JSX.Element => {
 			) : (
 				<div className={styles.genres}>
 					{genres.slice(0, MAX_GENRES_VISIBLE).map((genre) => (
-						<FilterCheckbox
+						<Checkbox
 							key={genre}
-							label={genre}
 							checked={filters.genres.includes(genre)}
 							onChange={() => onToggleGenre(genre)}
-						/>
+						>
+							{genre}
+						</Checkbox>
 					))}
 				</div>
 			)}
@@ -117,6 +157,6 @@ export const MovieFilters = (): React.JSX.Element => {
 					Сбросить жанры
 				</Button>
 			</div>
-		</Div>
+		</Box>
 	);
 };
