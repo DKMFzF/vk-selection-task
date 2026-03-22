@@ -1,4 +1,4 @@
-import { Button, Div, Group, Text } from "@vkontakte/vkui";
+import { Div, Group, Text } from "@vkontakte/vkui";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import { useCompareMovies } from "@/features/movie-compare/hooks/useCompareMovie
 import { useMovieDetails } from "@/features/movie-details/hooks/useMovieDetails";
 import { Loader } from "@/shared/ui/Loader";
 import { MovieDetailsCard } from "@/widgets/movie-details/ui/MovieDetailsCard";
+import styles from "./MovieDetailsPage.module.css";
 
 export const MovieDetailsPage = (): React.JSX.Element => {
 	const { id } = useParams();
@@ -32,42 +33,31 @@ export const MovieDetailsPage = (): React.JSX.Element => {
 
 	return (
 		<>
-			<Group>
-				<Div>
-					{isLoading ? <Loader /> : null}
-					{error ? <Text>Ошибка загрузки: {error}</Text> : null}
-					{movie ? (
-						<>
-							<MovieDetailsCard movie={movie} />
-							<div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-								<Button
-									onClick={() =>
-										favoriteIds.has(movie.id)
-											? removeFavorite(movie.id)
-											: requestAddFavorite(movie)
-									}
-								>
-									{favoriteIds.has(movie.id)
-										? "Убрать из избранного"
-										: "В избранное"}
-								</Button>
-								<Button
-									mode="secondary"
-									onClick={() =>
-										compareIds.has(movie.id)
-											? removeFromCompare(movie.id)
-											: addToCompare(movie)
-									}
-								>
-									{compareIds.has(movie.id)
-										? "Убрать из сравнения"
-										: "Сравнить"}
-								</Button>
-							</div>
-						</>
-					) : null}
-				</Div>
-			</Group>
+			<div className={styles.container}>
+				<Group>
+					<Div>
+						{isLoading ? <Loader /> : null}
+						{error ? <Text>Ошибка загрузки: {error}</Text> : null}
+						{movie ? (
+							<MovieDetailsCard
+								movie={movie}
+								isFavorite={favoriteIds.has(movie.id)}
+								isCompared={compareIds.has(movie.id)}
+								onToggleFavorite={() =>
+									favoriteIds.has(movie.id)
+										? removeFavorite(movie.id)
+										: requestAddFavorite(movie)
+								}
+								onToggleCompare={() =>
+									compareIds.has(movie.id)
+										? removeFromCompare(movie.id)
+										: addToCompare(movie)
+								}
+							/>
+						) : null}
+					</Div>
+				</Group>
+			</div>
 			<FavoriteConfirmModal
 				pendingMovie={pendingMovie}
 				onCancel={cancelFavoriteAdd}

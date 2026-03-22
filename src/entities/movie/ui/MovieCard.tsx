@@ -2,6 +2,8 @@ import { Button, Card, Div, Text, Title } from "@vkontakte/vkui";
 import { Link } from "react-router-dom";
 
 import type { Movie } from "@/entities/movie/model";
+import { RatingBadge } from "./RatingBadge";
+import styles from "./MovieCard.module.css";
 
 type MovieCardProps = {
 	movie: Movie;
@@ -23,30 +25,27 @@ export const MovieCard = ({
 	onRemoveFromCompare,
 }: MovieCardProps): React.JSX.Element => {
 	return (
-		<Card mode="shadow">
-			<Div>
+		<Card mode="shadow" className={styles.card}>
+			<div className={styles.posterWrap}>
+				<div className={styles.rating}>
+					<RatingBadge value={movie.rating} />
+				</div>
 				{movie.posterUrl ? (
 					<img
 						src={movie.posterUrl}
 						alt={movie.title}
-						style={{
-							width: "100%",
-							borderRadius: 8,
-							objectFit: "cover",
-							maxHeight: 320,
-						}}
+						className={styles.poster}
 					/>
 				) : (
-					<div
-						style={{ height: 320, borderRadius: 8, background: "#f2f3f5" }}
-					/>
+					<div className={styles.posterFallback}>Нет постера</div>
 				)}
-				<Title level="3" style={{ marginTop: 12, marginBottom: 6 }}>
+			</div>
+			<Div className={styles.content}>
+				<Title level="3" className={styles.title}>
 					{movie.title}
 				</Title>
-				<Text style={{ marginBottom: 4 }}>Год: {movie.year ?? "—"}</Text>
-				<Text style={{ marginBottom: 12 }}>Рейтинг: {movie.rating ?? "—"}</Text>
-				<div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+				<Text className={styles.meta}>{movie.year ?? "—"}</Text>
+				<div className={styles.actions}>
 					<Button
 						size="s"
 						mode="secondary"
@@ -64,7 +63,7 @@ export const MovieCard = ({
 								: onAddToFavorites(movie)
 						}
 					>
-						{isFavorite ? "Убрать из избранного" : "В избранное"}
+						{isFavorite ? "Из избранного" : "В избранное"}
 					</Button>
 					<Button
 						size="s"
@@ -73,7 +72,7 @@ export const MovieCard = ({
 							isCompared ? onRemoveFromCompare(movie.id) : onAddToCompare(movie)
 						}
 					>
-						{isCompared ? "Убрать из сравнения" : "Сравнить"}
+						{isCompared ? "Убрать сравнение" : "Сравнить"}
 					</Button>
 				</div>
 			</Div>

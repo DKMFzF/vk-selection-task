@@ -47,27 +47,37 @@ export const fetchMovieById = async (id: number): Promise<Movie> => {
 };
 
 export const fetchGenres = async (): Promise<string[]> => {
-	const fallbackResponse = await apiClient.get<{
-		docs: Array<{
-			genres?: Array<{ name?: string | null }> | null;
-		}>;
-	}>("/movie", {
-		params: {
-			page: 1,
-			limit: 250,
-			selectFields: ["genres"],
-		},
-		paramsSerializer: {
-			indexes: null,
-		},
-	});
+	try {
+		const response = await apiClient.get<Array<{ name: string }>>(
+			"/movie/possible-values-by-field",
+			{
+				params: { field: "genres.name" },
+			},
+		);
 
-	return Array.from(
-		new Set(
-			fallbackResponse.data.docs
-				.flatMap((movie) => movie.genres ?? [])
-				.map((genre) => genre?.name ?? "")
-				.filter(Boolean),
-		),
-	).slice(0, 20);
+		return response.data
+			.map((item) => item.name)
+			.filter(Boolean)
+			.slice(0, 20);
+	} catch {
+		const fallbackResponse = await apiClient.get<{
+			docs: Array<{
+				genres?: Array<{ name?: string | null }> | null;
+			}>;
+		}>("/movie", {
+			params: {
+				page: 1,
+				limit: 250,
+			},
+		});
+
+		return Array.from(
+			new Set(
+				fallbackResponse.data.docs
+					.flatMap((movie) => movie.genres ?? [])
+					.map((genre) => genre?.name ?? "")
+					.filter(Boolean),
+			),
+		).slice(0, 20);
+	}
 };

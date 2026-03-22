@@ -1,0 +1,31 @@
+.root {
+	min-height: calc(100vh - 48px);
+	display: grid;
+	grid-template-columns: 1fr 240px;
+	gap: 16px;
+	padding: 12px;
+}
+
+.content {
+	min-width: 0;
+}
+
+.desktopNav {
+	position: sticky;
+	top: 72px;
+	align-self: start;
+	display: grid;
+	gap: 8px;
+	padding: 12px;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 2px 10px rgba(24, 30, 38, 0.06);
+}
+
+.mobileContent {
+	min-height: calc(100vh - 96px);
+}
+
+.desktopNavItem {
+	color: black;
+}

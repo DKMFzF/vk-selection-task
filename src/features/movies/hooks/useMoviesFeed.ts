@@ -26,8 +26,7 @@ export const useMoviesFeed = () => {
 
 	useEffect(() => {
 		startApp();
-		requestNextPage();
-	}, [requestNextPage, startApp]);
+	}, [startApp]);
 
 	return {
 		movies,

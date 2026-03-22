@@ -59,6 +59,16 @@ export const $filters = createStore<MovieFilters>(defaultFilters)
 	.on(filtersChanged, (state, payload) => ({ ...state, ...payload }))
 	.on(filtersReplaced, (_, payload) => payload);
 
+let filtersStoreChangesCount = 0;
+if (typeof window !== "undefined") {
+	$filters.updates.watch((next) => {
+		filtersStoreChangesCount += 1;
+		console.info(`[filters-store] change #${filtersStoreChangesCount}`, next);
+	});
+}
+
+const $isAppInitialized = createStore(false);
+
 export const $page = createStore(0);
 export const $movies = createStore<Movie[]>([]);
 export const $isLoadingMovies = moviesRequestedFx.pending;
@@ -131,9 +141,17 @@ $page
 	.reset(filtersChanged)
 	.reset(filtersReplaced);
 
-sample({
+const appInitRequested = sample({
 	clock: appStarted,
-	target: genresRequestedFx,
+	source: $isAppInitialized,
+	filter: (isInitialized) => !isInitialized,
+});
+
+$isAppInitialized.on(appInitRequested, () => true);
+
+sample({
+	clock: appInitRequested,
+	target: [genresRequestedFx, loadNextPageRequested],
 });
 
 sample({

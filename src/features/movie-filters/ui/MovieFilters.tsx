@@ -1,23 +1,31 @@
-import {
-	Button,
-	Checkbox,
-	Div,
-	FormItem,
-	Input,
-	Text,
-	Title,
-} from "@vkontakte/vkui";
+import { Button, Div, Title } from "@vkontakte/vkui";
 import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
 
 import { $genres, $isLoadingGenres } from "@/entities/movie/model";
 import { Loader } from "@/shared/ui/Loader";
+import { FilterCheckbox, FilterNumberInput } from "@/shared/ui/filters";
 import { useMovieFilters } from "../hooks/useMovieFilters";
+import styles from "./MovieFilters.module.css";
 
 const MAX_GENRES_VISIBLE = 10;
 
 export const MovieFilters = (): React.JSX.Element => {
 	const { filters, updateFilters } = useMovieFilters();
 	const [genres, isLoadingGenres] = useUnit([$genres, $isLoadingGenres]);
+	const [ratingFromInput, setRatingFromInput] = useState(
+		String(filters.ratingFrom),
+	);
+	const [ratingToInput, setRatingToInput] = useState(String(filters.ratingTo));
+	const [yearFromInput, setYearFromInput] = useState(String(filters.yearFrom));
+	const [yearToInput, setYearToInput] = useState(String(filters.yearTo));
+
+	useEffect(() => {
+		setRatingFromInput(String(filters.ratingFrom));
+		setRatingToInput(String(filters.ratingTo));
+		setYearFromInput(String(filters.yearFrom));
+		setYearToInput(String(filters.yearTo));
+	}, [filters.ratingFrom, filters.ratingTo, filters.yearFrom, filters.yearTo]);
 
 	const onToggleGenre = (genre: string) => {
 		const hasGenre = filters.genres.includes(genre);
@@ -28,72 +36,87 @@ export const MovieFilters = (): React.JSX.Element => {
 		});
 	};
 
+	const commitNumberFilter = (
+		key: "ratingFrom" | "ratingTo" | "yearFrom" | "yearTo",
+		rawValue: string,
+		fallback: number,
+	) => {
+		const parsed = Number(rawValue);
+		const nextValue = Number.isFinite(parsed) ? parsed : fallback;
+		if (filters[key] === nextValue) return;
+		updateFilters({
+			[key]: nextValue,
+		});
+	};
+
 	return (
-		<Div>
-			<Title level="2" style={{ marginTop: 0 }}>
+		<Div className={styles.container}>
+			<Title level="2" className={styles.title}>
 				Фильтры
 			</Title>
-			<FormItem top="Рейтинг от">
-				<Input
-					type="number"
-					value={String(filters.ratingFrom)}
-					onChange={(event) =>
-						updateFilters({ ratingFrom: Number(event.target.value) || 0 })
+			<div className={styles.controls}>
+				<FilterNumberInput
+					label="Рейтинг от"
+					value={ratingFromInput}
+					onChange={setRatingFromInput}
+					onCommit={() =>
+						commitNumberFilter(
+							"ratingFrom",
+							ratingFromInput,
+							filters.ratingFrom,
+						)
 					}
 				/>
-			</FormItem>
-			<FormItem top="Рейтинг до">
-				<Input
-					type="number"
-					value={String(filters.ratingTo)}
-					onChange={(event) =>
-						updateFilters({ ratingTo: Number(event.target.value) || 10 })
+				<FilterNumberInput
+					label="Рейтинг до"
+					value={ratingToInput}
+					onChange={setRatingToInput}
+					onCommit={() =>
+						commitNumberFilter("ratingTo", ratingToInput, filters.ratingTo)
 					}
 				/>
-			</FormItem>
-			<FormItem top="Год от">
-				<Input
-					type="number"
-					value={String(filters.yearFrom)}
-					onChange={(event) =>
-						updateFilters({ yearFrom: Number(event.target.value) || 1990 })
+				<FilterNumberInput
+					label="Год от"
+					value={yearFromInput}
+					onChange={setYearFromInput}
+					onCommit={() =>
+						commitNumberFilter("yearFrom", yearFromInput, filters.yearFrom)
 					}
 				/>
-			</FormItem>
-			<FormItem top="Год до">
-				<Input
-					type="number"
-					value={String(filters.yearTo)}
-					onChange={(event) =>
-						updateFilters({
-							yearTo: Number(event.target.value) || filters.yearTo,
-						})
+				<FilterNumberInput
+					label="Год до"
+					value={yearToInput}
+					onChange={setYearToInput}
+					onCommit={() =>
+						commitNumberFilter("yearTo", yearToInput, filters.yearTo)
 					}
 				/>
-			</FormItem>
-			<FormItem top="Жанры">
-				{isLoadingGenres ? (
-					<Loader />
-				) : (
-					<div style={{ display: "grid", gap: 8 }}>
-						{genres.slice(0, MAX_GENRES_VISIBLE).map((genre) => (
-							<Checkbox
-								key={genre}
-								checked={filters.genres.includes(genre)}
-								onChange={() => onToggleGenre(genre)}
-							>
-								{genre}
-							</Checkbox>
-						))}
-					</div>
-				)}
-			</FormItem>
-			<Button mode="outline" onClick={() => updateFilters({ genres: [] })}>
-				Сбросить жанры
-			</Button>
-			<Text style={{ marginTop: 10, display: "block" }}>
-				Фильтры синхронизированы с URL.
-			</Text>
+			</div>
+
+			<div className={styles.genresTitle}>Жанры</div>
+			{isLoadingGenres ? (
+				<Loader />
+			) : (
+				<div className={styles.genres}>
+					{genres.slice(0, MAX_GENRES_VISIBLE).map((genre) => (
+						<FilterCheckbox
+							key={genre}
+							label={genre}
+							checked={filters.genres.includes(genre)}
+							onChange={() => onToggleGenre(genre)}
+						/>
+					))}
+				</div>
+			)}
+			<div className={styles.footer}>
+				<Button
+					className={styles.resetBtn}
+					mode="outline"
+					onClick={() => updateFilters({ genres: [] })}
+				>
+					Сбросить жанры
+				</Button>
+			</div>
 		</Div>
 	);
 };

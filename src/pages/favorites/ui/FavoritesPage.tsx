@@ -1,10 +1,11 @@
-import { CardGrid, Div, Group, Text, Title } from "@vkontakte/vkui";
+import { Div, Group, Text } from "@vkontakte/vkui";
 import { useMemo } from "react";
 
-import { MovieCard } from "@/entities/movie/ui/MovieCard";
 import { useFavorites } from "@/features/favorites/hooks/useFavorites";
 import { FavoriteConfirmModal } from "@/features/favorites/ui/FavoriteConfirmModal";
 import { useCompareMovies } from "@/features/movie-compare/hooks/useCompareMovies";
+import { SectionHeader } from "@/shared/ui/SectionHeader";
+import { MoviesFeed } from "@/widgets/movies-feed/ui/MoviesFeed";
 
 export const FavoritesPage = (): React.JSX.Element => {
 	const {
@@ -26,26 +27,21 @@ export const FavoritesPage = (): React.JSX.Element => {
 		<>
 			<Group>
 				<Div>
-					<Title level="1" style={{ marginTop: 0 }}>
-						Избранные фильмы
-					</Title>
+					<SectionHeader title="Избранные фильмы" />
 					{favorites.length === 0 ? (
 						<Text>Список избранного пуст.</Text>
 					) : (
-						<CardGrid size="l">
-							{favorites.map((movie) => (
-								<MovieCard
-									key={movie.id}
-									movie={movie}
-									isFavorite={favoriteIds.has(movie.id)}
-									isCompared={compareIds.has(movie.id)}
-									onAddToFavorites={requestAddFavorite}
-									onRemoveFromFavorites={removeFavorite}
-									onAddToCompare={addToCompare}
-									onRemoveFromCompare={removeFromCompare}
-								/>
-							))}
-						</CardGrid>
+						<MoviesFeed
+							movies={favorites}
+							isLoading={false}
+							error={null}
+							favoriteIds={favoriteIds}
+							compareIds={compareIds}
+							onAddToFavorites={requestAddFavorite}
+							onRemoveFromFavorites={removeFavorite}
+							onAddToCompare={addToCompare}
+							onRemoveFromCompare={removeFromCompare}
+						/>
 					)}
 				</Div>
 			</Group>

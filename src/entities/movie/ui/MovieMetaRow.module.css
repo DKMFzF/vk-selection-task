@@ -1,0 +1,25 @@
+.row {
+	display: grid;
+	grid-template-columns: 140px 1fr;
+	column-gap: 16px;
+	row-gap: 8px;
+	padding: 8px 0;
+	border-bottom: 1px solid #eceef1;
+}
+
+.label {
+	font-size: 14px;
+	color: #6f7985;
+}
+
+.value {
+	font-size: 15px;
+	color: #1f2328;
+}
+
+@media (max-width: 767px) {
+	.row {
+		grid-template-columns: 1fr;
+		row-gap: 4px;
+	}
+}

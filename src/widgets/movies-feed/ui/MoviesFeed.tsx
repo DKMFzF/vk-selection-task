@@ -1,8 +1,9 @@
-import { CardGrid, Div, Text } from "@vkontakte/vkui";
+import { Div, Text } from "@vkontakte/vkui";
 
 import type { Movie } from "@/entities/movie/model";
-import { Loader } from "@/shared/ui/Loader";
 import { MovieCard } from "@/entities/movie/ui/MovieCard";
+import { Loader } from "@/shared/ui/Loader";
+import styles from "./MoviesFeed.module.css";
 
 type MoviesFeedProps = {
 	movies: Movie[];
@@ -52,7 +53,7 @@ export const MoviesFeed = ({
 	}
 
 	return (
-		<CardGrid size="l">
+		<div className={styles.grid}>
 			{movies.map((movie) => (
 				<MovieCard
 					key={movie.id}
@@ -65,6 +66,6 @@ export const MoviesFeed = ({
 					onRemoveFromCompare={onRemoveFromCompare}
 				/>
 			))}
-		</CardGrid>
+		</div>
 	);
 };
