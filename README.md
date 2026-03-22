@@ -1,35 +1,21 @@
 # VK Selection Task
 
-Минимальная стартовая версия тестового проекта под требования:
+Стек по тз
+- React ^18.3.1
+- TypeScript ^5.9.2
+- React Router ^7.9.4
+- Axios ^1.12.2
+- Effector v23.4.0
+- VKUI 7.11.7
 
-- React
-- TypeScript
-- SPA (React Router)
-
-На текущем этапе реализована только одна стартовая страница без бизнес-логики по фильмам.
-
-## Запуск проекта
-
-1. Установить зависимости:
+## How to start?
 
 ```bash
-npm install
-```
+git clone https://github.com/DKMFzF/vk-selection-task.git
+cd vk-selection-task
+npm i
 
-2. Создать локальный `.env` (или использовать уже существующий) на основе `.env.default`.
-
-3. Запустить dev-сервер:
-
-```bash
+# env
+touch ./.env
 npm run dev
 ```
-
-По умолчанию приложение стартует на `http://localhost:3000`.
-
-## Доступные команды
-
-- `npm run dev` - запуск в режиме разработки
-- `npm run build` - production-сборка
-- `npm run preview` - предпросмотр production-сборки
-- `npm run lint` - проверка `src` через Biome
-- `npm run format` - форматирование `src` через Biome
