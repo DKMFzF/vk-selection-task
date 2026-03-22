@@ -38,9 +38,11 @@ export const MainLayout = (): React.JSX.Element => {
 							key={tab.path}
 							selected={location.pathname.startsWith(tab.path)}
 							text={tab.text}
+							aria-label={tab.text}
 							onClick={() => navigate(tab.path)}
 						>
 							{tab.icon}
+							<span className="visuallyHidden">{tab.text}</span>
 						</TabbarItem>
 					))}
 				</Tabbar>
