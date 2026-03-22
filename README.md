@@ -29,7 +29,7 @@ npm i
 npm run dev
 ```
 
-## Переменные окружения
+## .env
 
 `.env.default`:
 - `PORT` - порт dev-сервера
