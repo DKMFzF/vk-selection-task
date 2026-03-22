@@ -15,6 +15,7 @@
 
 .controls {
 	display: grid;
+	gap: 12px;
 }
 
 .genresTitle {
@@ -27,9 +28,65 @@
 
 .genres {
 	display: grid;
+	gap: 6px;
 	overflow-y: auto;
 	padding-right: 6px;
 	color: black;
+}
+
+.rangeWrap {
+	position: relative;
+	height: 26px;
+	display: flex;
+	align-items: center;
+}
+
+.rangeWrap::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 4px;
+	border-radius: 999px;
+	background: #e3e7ee;
+}
+
+.rangeFill {
+	position: absolute;
+	height: 4px;
+	border-radius: 999px;
+	background: #3978ff;
+}
+
+.rangeInput {
+	position: absolute;
+	left: 0;
+	right: 0;
+	width: 100%;
+	appearance: none;
+	background: transparent;
+	pointer-events: none;
+}
+
+.rangeInput::-webkit-slider-thumb {
+	appearance: none;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: #ffffff;
+	border: 2px solid #3978ff;
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+.rangeInput::-moz-range-thumb {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: #ffffff;
+	border: 2px solid #3978ff;
+	cursor: pointer;
+	pointer-events: auto;
 }
 
 .footer {
