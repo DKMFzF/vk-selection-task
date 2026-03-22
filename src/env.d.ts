@@ -10,4 +10,5 @@ declare module "*.svg?react" {
 	export default ReactComponent;
 }
 
-declare const BASE_URI: string;
+declare const __KINOPOISK_API_URL__: string;
+declare const __KINOPOISK_API_KEY__: string;

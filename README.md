@@ -1,21 +1,38 @@
 # VK Selection Task
 
-Стек по тз
-- React ^18.3.1
-- TypeScript ^5.9.2
-- React Router ^7.9.4
-- Axios ^1.12.2
-- Effector v23.4.0
-- VKUI 7.11.7
+Приложение для просмотра фильмов по ТЗ на `React + TypeScript + Effector + VKUI`.
 
-## How to start?
+## Функционал
+
+- Лента фильмов с infinite scroll (по 50 записей).
+- Фильтры по жанрам, рейтингу, году (с 1990), синхронизированные с URL.
+- Страница детальной информации о фильме.
+- Избранное с подтверждением добавления через кастомную модалку.
+- Сравнение до 2 фильмов (при добавлении третьего вытесняется первый).
+
+## Технологии
+
+- React
+- TypeScript
+- React Router
+- Effector + effector-react
+- VKUI
+- Axios
+
+## Запуск
 
 ```bash
 git clone https://github.com/DKMFzF/vk-selection-task.git
 cd vk-selection-task
 npm i
-
-# env
-touch ./.env
+# создать .env на основе .env.default
 npm run dev
 ```
+
+## Переменные окружения
+
+Смотри `.env.default`:
+
+- `PORT` - порт dev-сервера
+- `KINOPOISK_API_URL` - base url API
+- `KINOPOISK_API_KEY` - API ключ kinopoisk.dev
