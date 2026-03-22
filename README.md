@@ -2,7 +2,7 @@
 
 Приложение клиента фильмов сделано в рамках отбора на стажировку VK
 
-## Технологии
+## Стек
 
 - React
 - TypeScript
@@ -11,13 +11,13 @@
 - VKUI
 - Axios
 
-## Запуск
+## Start
 
 ```bash
 git clone https://github.com/DKMFzF/vk-selection-task.git
 cd vk-selection-task
 npm i
-# создать .env на основе .env.default
+# создать файл .env и добавить KINOPOISK_API_KEY
 npm run dev
 ```
 
